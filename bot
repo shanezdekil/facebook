@@ -1,0 +1,328 @@
+<?php
+$access_token = '100005077274560';
+$me = json_decode(auto('https://graph.facebook.com/me?access_token='.100005077274560.'&fields=id'),true);
+$jam=array('01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','00',);
+$sapa=array('Met Dini Hari ','Met Dini Hari ','Met Dini Hari ','Met Dini Hari ','Met Pagi ','Met Pagi ','Met Pagi ','Met Pagi ','Met Pagi ','Met Jelang Siang ','Met Siang ','Met Siang ','Met Siang ','Met Siang ','Met Sore ','Met Sore ','Met Petang ','Met Petang ','Met Malem ','Met Malem ','Met Malem ','Met Malem ','Met Malem ','Met Malem ','Met Malem ',);
+$ucapan = gmdate('H',time()+7*3600);
+$ucapan = str_replace($jam,$sapa,$ucapan);
+$stat = json_decode(auto('https://graph.facebook.com/me/feed?fields=id,from,message&access_token='.100005077274560.'&offset=0&limit=10'),true);
+if(file_exists('rcm_log')){
+   $log = json_encode(file('rcm_log'));
+   }else{
+   $log='';
+   }
+for($i=1;$i<=count($stat[data]);$i++){
+
+ $com = json_decode(auto('https://graph.facebook.com/'.$stat[data][$i-1][id].'/comments?access_token='.100005077274560.'&limit=50&fields=id,message,from'),true);
+ if(count($com[data]) > 0){
+   for($c=1;$c<=count($com[data]);$c++){
+       if(ereg($com[data][$c-1][id],$log)){
+        echo' wes di respon <hr/>';
+       }else{
+    $logx = $com[data][$c-1][id].'  ';
+    $logy = fopen('rcm_log','a');
+        fwrite($logy,$logx);
+        fclose($logy);
+   $gen=json_decode(auto('http://graph.facebook.com/'.$com[data][$c-1][from][id].'?fields=gender'),true);
+   if($gen[gender] == 'male'){
+     $arr_gen=array('Mas','Om','Kang','Mbah','Pak',);
+       }else{
+     $arr_gen=array('Mbak','Jeng','Non','Neng',);
+      }
+  $exp_nam=explode(' ',$com[data][$c-1][from][name]);
+  $nama=$arr_gen[rand(0,count($arr_gen)-1)].' '.$exp_nam[0];
+  $kata=$com[data][$c-1][message];
+
+if(ereg('MAAF',$kata) || ereg('maaf',$kata) || ereg('Maaf',$kata)){
+     $arr_mess = array(
+        'jiah... pake maap segala',
+        'ea.... g papa udah Danz maafin ko... ntar komen lgi ea '.$nama.'.... ',
+        'duh tiada maap bagimu '.$nama.'... gmana neh... :p',
+        'yeeee enak aja minta maaf... Nyanyi dulu '.$nama.'... nang ning ning nang oooo.... 5X',
+        'maaf... emang knapa '.$nama,
+        'masama '.$nama.' Danz jg minta maaf...',
+       );
+  }else{
+if(ereg('ASSALAM',$kata) || ereg('Assalam',$kata) || ereg('Askum',$kata) || ereg('assalam',$kata) || ereg('askum',$kata) || ereg('ASKUM',$kata)){
+     $arr_mess = array(
+    'Waalaikumsalam... :D',
+    'kumcalam',
+    'kumsayank... upzz kesleo... :D',
+    'wasskum',
+       );
+  }else{
+if(ereg('mandi',$kata) || ereg('pake celana',$kata) || ereg('mande',$kata)){
+     $arr_mess = array(
+         'idih... '.$nama.' parno',
+         'mau donk jdi sabunya',
+         'hihihik anuunya keliatan twuh',
+         'lohh '.$nama.' mandi g ajak2',
+         'mandi di kali anunya basah... tanpa comment '.$nama.' hatiku gelisah....',
+         'tumben '.$nama.' mandi',
+       );
+  }else{
+if(ereg('no1',$kata) || ereg('No-1',$kata) || ereg('no-1',$kata) || ereg('no 1',$kata) || ereg('pertamanya',$kata) || ereg('yg tercepat',$kata)){
+     $arr_mess = array(
+      'waaaa '.$nama.' no1 yaaa',
+      'hadiah buat '.$nama.' yg jdi pertamanya eeeemmmmmmmmuuuuaaaaaaaacchh',
+       );
+  }else{
+if(ereg('ROBOT',$kata) || ereg('robot',$kata) || ereg('bot',$kata) || ereg('BOT',$kata)){
+     $arr_mess = array(
+'botmu mantap '.$nama.' minta scriptnya dunk',
+'kmu robot koplak ea',
+'robot ko bisa komen si... gmana caranya',
+'ooooh jdi '.$nama.' robot toh... baru ngerrti saya...',
+$ucapan.' bot',
+       );
+  }else{
+if(ereg('cinta',$kata) || ereg('love',$kata) || ereg('pacaran',$kata) || ereg('kekasih',$kata) || ereg('kangen',$kata) || ereg('kasmaran',$kata)){
+     $arr_mess = array(
+  'cinta itu glodak '.$nama.'',
+'duh '.$nama.' makasih atas cintanya eaa',
+'haddooooh '.$nama.' ngajak bercinta ',
+'pokoknya mmmuaaaach '.$nama.'...',
+'oooooo love ea '.$nama.'',
+       );
+  }else{
+  if(ereg('kenapa',$kata) || ereg('knapa',$kata) || ereg('knp',$kata) || ereg('kenapakah',$kata)){
+     $arr_mess = array(
+'kenapa? au ach gelapz ',
+'kena sesuatu nich '.$nama,
+'ga knapa-napa... emang Majalah BuadTeLo... hehe pizzz',
+'kenapa ea '.$nama.' sek sek sek tak mikir',
+'Mo tau aja urusan robot',
+            );
+  }else{
+  if(ereg('mengapa',$kata) || ereg('mengpakah',$kata) || ereg('mgapa',$kata)){
+     $arr_mess = array(
+'mengapa ea? sek sek sek tak mikir',
+'karena '.$nama.' telah mencuri hatiku xixixi',
+'Mo tau aja urusan robot',
+            );
+  }else{
+  if(ereg('haha',$kata) || ereg('hihi',$kata) || ereg('wkwk',$kata) || ereg('wakaka',$kata) || ereg('hehe',$kata) || ereg('xixi',$kata)){
+     $arr_mess = array(
+'ngakak',
+'malah mrengez',
+'looohhh malah ktawa',
+'loooohhh bot nya ketawa hahaha',
+'gw serius say jgn ketawa dunkkkk... :p',
+'kok ktawa ada yg aneh ea',
+'wkwkwkwkwk juga',
+'udah2 jgan ktawa mulu... '.$nama.' malu tuh banyak orang',
+            );
+  }else{
+  if(ereg(' WIB',$kata) || ereg(' pm',$kata) || ereg(' am',$kata) || ereg('tanggal',$kata) || ereg('jam',$kata)){
+     $arr_mess = array(
+'lucu koment kamu '.$nama.'... ada waktunya segala ',
+'apa twuh '.$nama.' kok ada jam segala',
+'pasti '.$nama.' nih org yg tepat waktu... ampe komenpun di kasi jam... :p',
+            );
+  }else{
+  if(ereg('kemana',$kata) || ereg('kmana',$kata) || ereg('buru2',$kata) || ereg('ditinggal',$kata)){
+     $arr_mess = array(
+'ea nih '.$nama.' botnya ngantuk... bye',
+'kemana kemana kemana.... assseeekk ting ting punya coey',
+'dah ngantuk gw',
+'byee....',
+'turru disek rek',
+'mo bobok aq... mo ikud',
+'ikud yuk '.$nama,
+            );
+  }else{
+  if(ereg('Hadir',$kata) || ereg('hadir',$kata) || ereg('HADIR',$kata) || ereg('ABSEN',$kata) || ereg('absen',$kata) || ereg('Absen',$kata)){
+     $arr_mess = array(
+       'Timz ya '.$nama.' dah hadir di Statusku...',
+       'seneng deh lok '.$nama.' hadir',
+       'dah Q tunggu kehadiranmu '.$nama.' hehe... '.$ucapan.'..!!',
+       ' '.$nama.' dah hadir.... makasih',
+       'hadir kemana '.$nama.'??? :p',
+       ' '.$nama.' Kamu bawa anu ea.... kok setiap '.$nama.' hadir bawaanya kepengen anu gitu... :D',
+       'asseeeek '.$nama.' hadirrr... ga jadi galau la gw...',
+       'betapa sepinya tanpa kehadiranmu '.$nama.'',
+       );
+  }else{
+  if(ereg('http',$kata)){
+   $arr_mess=array(
+     'Link apa tuh Gan','Linknya boleh di klik ndak twuh ',
+     );
+  }else{
+  if(ereg('OFF',$kata) || ereg('off',$kata) || ereg('ofline',$kata) || ereg('offline',$kata) || ereg('Offline',$kata) || ereg('Off',$kata)){
+   $arr_mess=array(
+     'Wah '.$nama.' hebat.... padahal lg offlen kog bisa coment di statusQ gmana caranya twuh....',
+     'sama '.$nama.' Q jga gi Offline kog',
+     'mo offline ato online yang penting dah comment q dah seneng banget kok '.$nama.'...  yakin dah zumpah...!!! :D',
+     'yaaah '.$nama.' offline mulu nih......',
+     'owww jdi '.$nama.' robot ea.... sama lok giitu xixixixi',
+     'waduh '.$nama.' jdi robot',
+     );
+     }else{
+  if(ereg('Keriting',$kata) || ereg('kriting',$kata) || ereg('Kriting',$kata) || ereg('Kesleo',$kata) || ereg('kriting',$kata) || ereg('kesleo',$kata)){
+   $arr_mess=array(
+     'Salut deh '.$nama.'... meski jari keriting tetep hadir di statusku makasi eaaa',
+     'tenang '.$nama.' sini jarinya Q setrika wakakaka',
+     'Uuuuu kacian keriting ea '.$nama.'... sama lok gitu',
+     'mo di pijitin jarinya '.$nama.'',
+     'besok jempolnya di bonding ea '.$nama.' :p',
+     );
+  }else{
+  if(ereg('like',$kata) || ereg('JEMPOL',$kata) || ereg('LIKE',$kata) || ereg('jempol',$kata) || ereg('Jempol',$kata) || ereg('suka',$kata)){
+  $arr_mess=array(
+   'trimakasih '.$nama.'',
+   'jempolmu luar biasa '.$nama.'',
+   'ndak krriting tuh jempol',
+   'ok thankz for like this... wekekekeke',
+   'makasih dah like statusq',
+   'bener ni '.$nama.'',
+   );
+     }else{
+     $arr_mess = array(
+           'Tthankz ea '.$nama.' Dah mampir di Statusku... '.$ucapan.' '.$nama,
+           'Suka deh... '.$nama.' bisa hadir di statusku... '.$ucapan,
+           $ucapan.' Makasih ea '.$nama.' Jempol + commentnya',
+           'Ok '.$nama.' Thankz dah Mampir',
+           'Seneng Dweh '.$nama.' dah comment',
+           'Baca Koment '.$nama.' Rasanya adhem hehe',
+           'aaaaaaaaa ada '.$nama.'... Thnkz '.$nama.' Dah hadir...',
+           'Kikuk Kikuk Hehe.... '.$ucapan,
+           'Ok Tok Ezz '.$nama.' Makasi eaaa',
+           $ucapan.' '.$nama,
+           $ucapan.' '.$nama.' Rajin banget Comment Di Statusku xixixixi pizzz....',
+           'Makaceeeeeeeehhhhhhh',
+           'Andai Saja kamu tau '.$nama.' Setiap Kamu Hadir Di Statusku Rasanya Gimanaaaaaa Gitu',
+           'Maap '.$nama.'....!!! Baru mandi neh.... Lom sempet Pake celana Saya.... wakakakakaka',
+           'Seneng deh lok ada '.$nama.' Di tiap Statusku Ntar Komen lagi eaaaaa....',
+           $ucapan.' '.$nama.'...!!! Bapak kamu tukang anu ya....!!! Abisnya lok deket kAmu Bawaanya pengen Anuuuuuuu Gitu',
+           'Weeeeeeeeeeeee '.$nama.' Dah hadirrrrr....!! '.$ucapan.' '.$nama.'',
+           'klok '.$nama.' Ga komen bisa Gila gua...!! haha :p',
+           'Ok sip Laaa...',
+           'Ampe jempol Keriting Oeee haha...',
+           'Hampir Aja saya Galau klo '.$nama.' Ga comment...!! '.$ucapan.' '.$nama,
+           'Thnkz '.$nama.'',
+           'Sip',
+           'WoW Bisa terbang',
+           'Ngopi dulu '.$nama.'',
+           ''.$nama.' Suka Sekali yak ama Statusku',
+           'yez yez yez '.$nama.' Dah Hadir d Statusku',
+           'Sesama bot Harus rukun  ea '.$nama.' ',
+           'Sesepi malam tanpa rembulan sehening Lautan tanpa gelombang Begitu pula Statusku Terasa sepi tanpa komentar kamu..... :p',
+           'Loooo '.$nama.' nongol Lagi',
+           'jempolku kriteng rek rek',
+           'Bapakmu Jenenge Sopo???',
+           'Bingung Mo jawab Apa '.$nama.'',
+           'berrrrrr',
+           'kamu Like statusku aku like setatusmu trus kita Like Likean yuk',
+           'Asalkan Jangan Hadir Bawa Golok aja '.$nama.'',
+           'Kamu Kok baek banget se '.$nama.'.... Selalu Hadir di statusku',
+           'asssSeeeeeekkkk '.$nama.' ngasi Coomment',
+           'hemmmmm',
+           'Beliin pulsa gw dunk '.$nama.'',
+           'Tanpa Commentmu Agku Galauuuu',
+           'Dulu Saya punya tahi lalat di pipi... Setelah baca komen '.$nama.' Tahi Lalat saya berubah jadi tahi kebo.... Terimakasih '.$nama.'',
+           'Dulu Saya suka makan roti.... setelah baca komen '.$nama.' Saya jadi suka makan batu.... Terimakasih '.$nama.'',
+           'Dulu Saya terkena kencing manis... Setelah Baca komen '.$nama.' kencing saya jadi asem... Terimakasih '.$nama.'',
+           'Dulu Saya susah tidur... Setelah baca komen dari '.$nama.' saya Jarang mandi....',
+           'Sudah 3 tahun saya menderita gagal ginjal.... Setelah baca komen '.$nama.' Saya gagal hidup',
+           'Dulu Saya menderita kencing batu... setelah baca komen dari '.$nama.' Batunya saya kumpulin buat bangun Rumah.... Terimakasih '.$nama.'',
+           'Dulu Saya sering gonta ganti pasangan Setelah baca komen dari '.$nama.' Saya jadi Sering Gonta ganti kelamin...',
+           'ah '.$nama.' bisa aja deeee',
+           'Trimz waaaaa',
+            );
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+      }
+     }
+    }
+   }
+  }
+  }
+ }
+}
+}
+   $message= '@['.$com[data][$c-1][from][id].':1] @  '.$arr_mess[rand(0,count($arr_mess)-1)].'';
+      if($com[data][$c-1][from][id] != $me[id]) {
+           $rsp[$i][] = urlencode($message);
+
+               }
+            }
+         }
+      }
+ if(!empty($rsp[$i])){
+       $respon = implode('%0a',$rsp[$i]);
+        auto('https://graph.facebook.com/'.$stat[data][$i-1][id].'/comments?access_token='.100005077274560.'&message='.$respon.'&method=post');
+       }
+   }
+           
+//BILA ADA TMN YG POSTING DI WALL
+if(file_exists('wall_log')){
+   $wlog = json_encode(file('wall_log'));
+   }else{
+   $wlog = '';
+   }
+for($p=1;$p<=count($stat[data]);$p++){
+   if($stat[data][$p-1][from][id] != $me[id]){
+       if(!ereg($stat[data][$p-1][id],$wlog)){
+           $xlog = $stat[data][$p-1][id].' ';
+           $ylog=fopen('wall_log','a');
+             fwrite($ylog,$xlog);
+             fclose($ylog);
+     $nm = '@['.$stat[data][$p-1][from][id].':1] ';
+if(ereg('tfc',$key) || ereg('tfl',$key) || ereg('TFC',$key) || ereg('TFL',$key) || ereg('makasih',$key) || ereg('trims',$key) || ereg('thnk',$key) || ereg('mksih',$key)){
+   $reposts = array(
+   'masama '.$nm,
+   'ok '.$nm.' masama',
+   'duh '.$nm.' masama ea',
+   );
+ }else{
+if(ereg('maaf',$key) || ereg('maap',$key) || ereg('sorry',$key) || ereg('sorry',$key) || ereg('mf',$key)){
+    $reposts = array(
+    'duh '.$nm.' g perlu minta maap ama bot eaa',
+    'emang ada apa '.$nm,
+   'Danz jga minta maaf '.$nm,
+   );
+ }else{
+if(ereg('colak',$key) || ereg('colek',$key) || ereg('poke',$key)){
+    $reposts = array(
+    'duh '.$nm.' maaf Robot ge genit nweh :D hee',
+    'au au au auuuuuu',
+    'ciuuuzzz',
+    'hehehe',
+    'Mau Danz colek agi g '.$nm,
+    );
+  }else{
+if(ereg('ass',$key) || ereg('askum',$key) || ereg('salam',$key)){
+   $reposts = array(
+   'waalaikumsalam '.$nm.' '.$ucapan,
+   'kumsalam',
+   );
+}else{
+   $reposts = array(
+   'waduh maaf terpaksa botnya yg tampil... Danz gi Offline ni '.$nm,
+   'da apa ea '.$nm.'... tunggu Danz Online ea ',
+   'maaf saya cuma bot... ada yg bisa di bantu '.$nm.' :p',
+  );
+          }
+       }
+    }
+ }
+  $post=$reposts[rand(0,count($reposts)-1)];
+  auto('https://graph.facebook.com/'.$stat[data][$p-1][id].'/comments?access_token='.100005077274560.'&message='.urlencode($post).'&method=post');
+     }
+  }
+}
+
+function auto($url){
+   $curl = curl_init();
+   curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+   curl_setopt($curl, CURLOPT_URL, $url);
+   $ch = curl_exec($curl);
+   curl_close($curl);
+   return $ch;
+   }
+?>
